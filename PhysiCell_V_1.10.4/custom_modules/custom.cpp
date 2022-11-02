@@ -103,34 +103,6 @@ void create_cell_types( void )
 	   This builds the map of cell definitions and summarizes the setup. 
 	*/
 		
-    Cell_Definition* pTumorCells = find_cell_definition("Tumor cells");
-    Cell_Definition* pBloodVessels = find_cell_definition("Blood vessels");
-    Cell_Definition* pStromalCells = find_cell_definition("Endothelial cells");
-    Cell_Definition* pFibroblasts = find_cell_definition("Fibroblasts");
-    Cell_Definition* pMacrophages = find_cell_definition("Macrophages");
-    
-    // Define cell phenotype and custom functions
-    
-    // Cancer cells 
-    pTumorCells->functions.update_phenotype = cancer_cells_phenotype_function;
-    //pTumorCells->functions.custom_cell_rule = cancer_cells_custom_function;
-    
-    // Blood vessels
-    pBloodVessels->functions.update_phenotype = blood_vessels_phenotype_function;
-    //pBloodVessels->functions.custom_cell_rule = blood_vessels_custom_function;
-    
-    // Stromal cells 
-    pStromalCells->functions.update_phenotype = stromal_cells_phenotype_function;
-    //pStromalCells->functions.custom_cell_rule = stromal_cells_custom_function;
-    
-    // Fibroblasts 
-    pFibroblasts->functions.update_phenotype = fibroblasts_phenotype_function;
-    //pFibroblasts->functions.custom_cell_rule = fibroblasts_custom_function;
-    
-    // Macrophages
-    pMacrophages->functions.update_phenotype = macrophages_phenotype_function;
-    //pMacrophages->functions.custom_cell_rule = macrophages_custom_function;
-    
 	build_cell_definitions_maps(); 
 
 	/*
@@ -152,7 +124,14 @@ void create_cell_types( void )
 	/*
 	   This builds the map of cell definitions and summarizes the setup. 
 	*/
-		
+    
+    Cell_Definition* pT0 = find_cell_definition("type0");
+    Cell_Definition* pT1 = find_cell_definition("type1");
+    Cell_Definition* pT2 = find_cell_definition("type2");
+    
+    pT1 -> functions.custom_cell_rule = custom_function_switch;
+  
+    
 	display_cell_definitions( std::cout ); 
 	
 	return; 
@@ -195,105 +174,72 @@ void setup_tissue( void )
 	// create some of each type of cell 
 	
 	Cell* pC;
-    int n_cells [5] = {5, 35, 150, 50, 5};
-	
-	for( int k=0; k < cell_definitions_by_index.size() ; k++ )
+    Cell_Definition* pCD = find_cell_definition("type0");
+	pC = create_cell( *pCD ); 
+    double current_x_position = 0; 
+    pC->assign_position( {0,0,0} );
+    
+	for( int k=1; k < 15 ; k++ )
 	{
-		Cell_Definition* pCD = cell_definitions_by_index[k]; 
-		std::cout << "Placing cells of type " << pCD->name << " ... " << std::endl; 
-        
-           
-		for( int n = 0 ; n < n_cells[k]+1 ; n++ )
-		{
-			std::vector<double> position = {0,0,0}; 
-			position[0] = Xmin + UniformRandom()*Xrange; 
-			position[1] = Ymin + UniformRandom()*Yrange; 
-			position[2] = Zmin + UniformRandom()*Zrange; 
-			
-			pC = create_cell( *pCD ); 
-			pC->assign_position( position );
-		}
+		Cell_Definition* pCD1 = find_cell_definition("type1");
+		current_x_position += pC->phenotype.geometry.radius*2;
+		pC = create_cell( *pCD1 ); 
+		pC->assign_position( {current_x_position,0,0});
+		
 	}
 	std::cout << std::endl; 
 	
-	
+	// load cells from your CSV file (if enabled)
+	//load_cells_from_pugixml(); 	
 	
 	return; 
 }
 
 std::vector<std::string> my_coloring_function( Cell* pCell )
-{
-	// start with flow cytometry coloring 
-	
-	std::vector<std::string> output = false_cell_coloring_cytometry(pCell); 
+{ 
+    std::vector<std::string> output = false_cell_coloring_cytometry(pCell); 
 		
-	if( pCell->phenotype.death.dead == false && pCell->type == 0 )
+	if(pCell->type == 0 )
 	{
 		 output[0] = "grey"; 
 		 output[2] = "grey"; 
 	}
-	if(pCell->phenotype.death.dead == true && pCell->type ==0) {
-	       output[0] = "black";
-            output[2] = "black";
-	}	       
-
-	if(pCell->type == 1) {
-		output[0] = "red";
-		output[2] = "red";
+	if(pCell->type == 1 )
+	{
+		 output[0] = "red"; 
+		 output[2] = "red"; 
+	}
+	if(pCell->type == 2 )
+	{
+		 output[0] = "blue"; 
+		 output[2] = "blue"; 
 	}
 	
-    if(pCell->phenotype.death.dead == false && pCell->type == 2){
-        output[0]="cyan";
-        output[2]="cyan";
-	}
-	if(pCell->phenotype.death.dead == true && pCell->type ==2) {
-		output[0] ="blue";
-		output[2] ="blue";
-	}
 	
-	if(pCell->type == 3){
-        output[0]="magenta";
-        output[2]="magenta";
-	}
-		
-	if(pCell->type == 4){
-        output[0]="green";
-        output[2]="green";
-	}
+	return output;  }
+
 	
-	return output;  
-}
-
-
-void cancer_cells_phenotype_function( Cell* pCell, Phenotype& phenotype, double dt )
-{
- pCell->functions.update_phenotype = update_cell_and_death_parameters_O2_based; 
-
-return; }
-
-void blood_vessels_phenotype_function( Cell* pCell, Phenotype& phenotype, double dt )
-{ 
-
-// Make cells not move 
-
-    pCell->is_movable = false;     
-    
-return; }
-
-void stromal_cells_phenotype_function( Cell* pCell, Phenotype& phenotype, double dt )
-{ return; }
-
-void fibroblasts_phenotype_function( Cell* pCell, Phenotype& phenotype, double dt )
-{ return; }
-
-void macrophages_phenotype_function( Cell* pCell, Phenotype& phenotype, double dt )
-{ return; }
-
 void phenotype_function( Cell* pCell, Phenotype& phenotype, double dt )
 { return; }
 
-void custom_function( Cell* pCell, Phenotype& phenotype , double dt )
-{ return; } 
+void custom_function( Cell* pCell, Phenotype& phenotype, double dt )
+{ return; }
+
+void custom_function_switch( Cell* pCell, Phenotype& phenotype, double dt )
+{ 
+    
+static int chemokine_index = microenvironment.find_density_index( "chemokine" );
+double chemokine_threshold = parameters.doubles("chemokine_concentration_threshold");
+
+double chemokineConcentration = (pCell->nearest_density_vector())[chemokine_index];
+
+
+if (chemokineConcentration > chemokine_threshold) {
+        //std::cout<<chemokineConcentration<<std::endl;
+		pCell->type=2;
+	}
+    
+return; }
 
 void contact_function( Cell* pMe, Phenotype& phenoMe , Cell* pOther, Phenotype& phenoOther , double dt )
 { return; } 
