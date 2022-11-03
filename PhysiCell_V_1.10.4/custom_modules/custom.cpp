@@ -139,6 +139,9 @@ void create_cell_types( void )
     pTumor_Up->functions.update_phenotype = tumor_up_phenotype_function; 
     pLung->functions.update_phenotype = phenotype_function;
     
+    pFibroblast->is_movable = false; 
+    pEndothelial->is_movable = false; 
+    
      
     
 	display_cell_definitions( std::cout ); 
@@ -172,69 +175,63 @@ void setup_tissue( void )
 	
 	return; 
 }
-
 std::vector<std::string> my_coloring_function( Cell* pCell )
-{ 
-    std::vector<std::string> output = false_cell_coloring_cytometry(pCell); 
-    static Cell_Definition* pTumor_Up = find_cell_definition("Tumor_Up");
-    static Cell_Definition* pTumor_Down = find_cell_definition("Tumor_Down");
-    static Cell_Definition* pFibroblast = find_cell_definition("Fibroblast");
-    static Cell_Definition* pMacrophage = find_cell_definition("Macrophage");
-    static Cell_Definition* pEndothelial = find_cell_definition("Endothelial");
-    static Cell_Definition* pLung = find_cell_definition("Lung");
-    
-		
-    // Tumor UP -> black 
-	if(pCell->type == pTumor_Up->type && pCell->custom_data["activated"]==0)
-	{
-		 output[0] = "rgb(0,0,0)"; 
-		 output[2] = "rgb(0,0,0)"; 
-	} else if (pCell->type == pTumor_Up->type && pCell->custom_data["activated"]==1){
-        output[0] = "rgb(0,0,0)"; 
-        output[2] = "rgb(0,0,0)"; 
-    } 
-    // Tumor down -> grey 
-    else if (pCell->type == pTumor_Down->type && pCell->custom_data["activated"]==0){
-        output[0] = "rgb(100,100,100)"; 
-        output[2] = "rgb(100,100,100)"; 
-    } else if (pCell->type == pTumor_Down->type && pCell->custom_data["activated"]==1){
-        output[0] = "rgb(100,100,100)"; 
-        output[2] = "rgb(100,100,100)"; 
-    } 
-    // Macrophage -> green 
-    else if (pCell->type == pMacrophage->type && pCell->custom_data["activated"]==0){
-        output[0] = "rgb(0,128,0)"; 
-        output[2] = "rgb(0,128,0)"; 
-    } else if (pCell->type == pMacrophage->type && pCell->custom_data["activated"]==1){
-        output[0] = "rgb(0,110,0)"; 
-        output[2] = "rgb(0,110,0)"; 
-    } 
-    // Endothelial -> tomato
-    else if (pCell->type == pEndothelial->type && pCell->custom_data["activated"]==0){
-        output[0] = "rgb(255,99,71)"; 
-        output[2] = "rgb(255,99,71)"; 
-    } else if (pCell->type == pEndothelial->type && pCell->custom_data["activated"]==1){
-        output[0] = "rgb(235,79,51)"; 
-        output[2] = "rgb(235,79,51)"; 
-    } 
-    // Lung -> violet 
-    else if (pCell->type == pLung->type && pCell->custom_data["activated"]==0){
-        output[0] = "rgb(238,130,238)"; 
-        output[2] = "rgb(238,130,238)"; 
-    } else if (pCell->type == pLung->type && pCell->custom_data["activated"]==1){
-        output[0] = "rgb(238,130,238)"; 
-        output[2] = "rgb(238,130,238)"; 
-    } 
-    // Fibroblast -> blueviolet, indigo
-    else if (pCell->type == pFibroblast->type && pCell->custom_data["activated"]==0){
-        output[0] = "rgb(138,43,226)"; 
-        output[2] = "rgb(138,43,226)"; 
-    } else if (pCell->type == pFibroblast->type && pCell->custom_data["activated"]==1){
-        output[0] = "rgb(75,0,130)"; 
-        output[2] = "rgb(75,0,130)"; 
-    }
-		
-	return output;  }
+{
+  std::vector<std::string> output = false_cell_coloring_cytometry(pCell);
+  static Cell_Definition* pTumor_Up = find_cell_definition("Tumor_Up");
+  static Cell_Definition* pTumor_Down = find_cell_definition("Tumor_Down");
+  static Cell_Definition* pFibroblast = find_cell_definition("Fibroblast");
+  static Cell_Definition* pMacrophage = find_cell_definition("Macrophage");
+  static Cell_Definition* pEndothelial = find_cell_definition("Endothelial");
+  static Cell_Definition* pLung = find_cell_definition("Lung");  // Tumor UP -> black
+  if(pCell->type == pTumor_Up->type && pCell->custom_data["activated"]==0)
+  {
+     output[0] = "rgb(50,50,50)";
+     output[2] = "rgb(50,50,50)";
+  } else if (pCell->type == pTumor_Up->type && pCell->custom_data["activated"]==1){
+    output[0] = "rgb(50,50,50)";
+    output[2] = "rgb(50,50,50)";
+  }
+  // Tumor down -> grey
+  else if (pCell->type == pTumor_Down->type && pCell->custom_data["activated"]==0){
+    output[0] = "rgb(127,127,127)";
+    output[2] = "rgb(127,127,127)";
+  } else if (pCell->type == pTumor_Down->type && pCell->custom_data["activated"]==1){
+    output[0] = "rgb(127,127,127)";
+    output[2] = "rgb(127,127,127)";
+  }
+  // Macrophage -> green
+  else if (pCell->type == pMacrophage->type && pCell->custom_data["activated"]==0){
+    output[0] = "rgb(77,175,74)";
+    output[2] = "rgb(77,175,74)";
+  } else if (pCell->type == pMacrophage->type && pCell->custom_data["activated"]==1){
+    output[0] = "rgb(27,125,24)";
+    output[2] = "rgb(27,125,24)";
+  }
+  // Endothelial -> tomato
+  else if (pCell->type == pEndothelial->type && pCell->custom_data["activated"]==0){
+    output[0] = "rgb(255,127,0)";
+    output[2] = "rgb(255,127,0)";
+  } else if (pCell->type == pEndothelial->type && pCell->custom_data["activated"]==1){
+    output[0] = "rgb(205,77,0)";
+    output[2] = "rgb(205,77,0)";
+  }
+  // Lung -> violet
+  else if (pCell->type == pLung->type && pCell->custom_data["activated"]==0){
+    output[0] = "rgb(238,130,238)";
+    output[2] = "rgb(238,130,238)";
+  } else if (pCell->type == pLung->type && pCell->custom_data["activated"]==1){
+    output[0] = "rgb(238,130,238)";
+    output[2] = "rgb(238,130,238)";
+  }
+  // Fibroblast -> blueviolet, indigo
+  else if (pCell->type == pFibroblast->type && pCell->custom_data["activated"]==0){
+    output[0] = "rgb(55,126,184)";
+    output[2] = "rgb(55,126,184)";
+  } else if (pCell->type == pFibroblast->type && pCell->custom_data["activated"]==1){
+    output[0] = "rgb(5,76,134)";
+    output[2] = "rgb(5,76,134)";
+  }  return output; }
 
 	
 void phenotype_function( Cell* pCell, Phenotype& phenotype, double dt )
