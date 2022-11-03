@@ -1311,6 +1311,9 @@
 		<random_seed description="" type="int" units="dimensionless">0</random_seed>
         <number_of_cells description="initial number of cells (for each cell type)" type="int" units="none">5</number_of_cells>
         <chemokine_concentration_threshold description="" type="double" units="">1</chemokine_concentration_threshold>
+        <apply_chemo description="" type="bool" units="">false</apply_chemo>
+        <apply_JNK_inhibitor description="" type="bool" units="">false</apply_JNK_inhibitor>
+        <JNK_inhibitor_strength  description="" type="double" units="">1.0</JNK_inhibitor_strength >
     </user_parameters>
 	
 </PhysiCell_settings>

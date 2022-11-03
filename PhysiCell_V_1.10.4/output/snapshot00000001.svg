@@ -25,8 +25,8 @@
   </g>
   <g id="cells">
    <g id="cell0" type="Tumor_Down" dead="false" >
-  <circle cx="545.286" cy="529.738" r="8.41271" stroke-width="0.5" stroke="rgb(0,0,0)" fill="rgb(127,127,127)"/>
-  <circle cx="545.286" cy="529.738" r="5.05167" stroke-width="0.5" stroke="rgb(0,0,0)" fill="rgb(127,127,127)"/>
+  <circle cx="545.11" cy="529.662" r="8.41271" stroke-width="0.5" stroke="rgb(0,0,0)" fill="rgb(127,127,127)"/>
+  <circle cx="545.11" cy="529.662" r="5.05167" stroke-width="0.5" stroke="rgb(0,0,0)" fill="rgb(127,127,127)"/>
    </g>
    <g id="cell1" type="Fibroblast" dead="false" >
   <circle cx="23" cy="320" r="7.85962" stroke-width="0.5" stroke="rgb(0,0,0)" fill="rgb(55,126,184)"/>
@@ -9961,8 +9961,8 @@
   <circle cx="515" cy="560.376" r="4.0644" stroke-width="0.5" stroke="rgb(0,0,0)" fill="rgb(238,130,238)"/>
    </g>
    <g id="cell2484" type="Tumor_Up" dead="false" >
-  <circle cx="545.172" cy="544.916" r="7.85962" stroke-width="0.5" stroke="rgb(0,0,0)" fill="rgb(50,50,50)"/>
-  <circle cx="545.172" cy="544.916" r="4.0644" stroke-width="0.5" stroke="rgb(0,0,0)" fill="rgb(50,50,50)"/>
+  <circle cx="545.173" cy="544.907" r="7.85962" stroke-width="0.5" stroke="rgb(0,0,0)" fill="rgb(50,50,50)"/>
+  <circle cx="545.173" cy="544.907" r="4.0644" stroke-width="0.5" stroke="rgb(0,0,0)" fill="rgb(50,50,50)"/>
    </g>
   </g>
  </g>
@@ -9973,7 +9973,7 @@
   </text>
   <text x="26.5" y="1107.7"
    font-family="Arial" font-size="19.875" fill="black" >
-   0 days, 0 hours, 0 minutes, and 12.0240 seconds
+   0 days, 0 hours, 0 minutes, and 12.6771 seconds
   </text>
   <rect x="0" y="74.2" width="1060" height="1060" stroke-width="2.12" stroke="rgb(0,0,0)" fill="none"/>
 </svg>

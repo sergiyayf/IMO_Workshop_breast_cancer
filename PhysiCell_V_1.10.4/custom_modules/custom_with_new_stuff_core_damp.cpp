@@ -69,61 +69,61 @@
 
 void create_cell_types( void )
 {
-    // set the random seed
-    SeedRandom( parameters.ints("random_seed") );
-    
-    /*
-       Put any modifications to default cell definition here if you
-       want to have "inherited" by other cell types.
-       
-       This is a good place to set default functions.
-    */
-    
-    initialize_default_cell_definition();
-    cell_defaults.phenotype.secretion.sync_to_microenvironment( &microenvironment );
-    
-    cell_defaults.functions.volume_update_function = standard_volume_update_function;
-    cell_defaults.functions.update_velocity = standard_update_cell_velocity;
+	// set the random seed 
+	SeedRandom( parameters.ints("random_seed") );  
+	
+	/* 
+	   Put any modifications to default cell definition here if you 
+	   want to have "inherited" by other cell types. 
+	   
+	   This is a good place to set default functions. 
+	*/ 
+	
+	initialize_default_cell_definition(); 
+	cell_defaults.phenotype.secretion.sync_to_microenvironment( &microenvironment ); 
+	
+	cell_defaults.functions.volume_update_function = standard_volume_update_function;
+	cell_defaults.functions.update_velocity = standard_update_cell_velocity;
 
-    cell_defaults.functions.update_migration_bias = NULL;
-    cell_defaults.functions.update_phenotype = NULL; // update_cell_and_death_parameters_O2_based;
-    cell_defaults.functions.custom_cell_rule = NULL;
-    cell_defaults.functions.contact_function = NULL;
-    
-    cell_defaults.functions.add_cell_basement_membrane_interactions = NULL;
-    cell_defaults.functions.calculate_distance_to_membrane = NULL;
-    
-    /*
-       This parses the cell definitions in the XML config file.
-    */
-    
-    initialize_cell_definitions_from_pugixml();
+	cell_defaults.functions.update_migration_bias = NULL; 
+	cell_defaults.functions.update_phenotype = NULL; // update_cell_and_death_parameters_O2_based; 
+	cell_defaults.functions.custom_cell_rule = NULL; 
+	cell_defaults.functions.contact_function = NULL; 
+	
+	cell_defaults.functions.add_cell_basement_membrane_interactions = NULL; 
+	cell_defaults.functions.calculate_distance_to_membrane = NULL; 
+	
+	/*
+	   This parses the cell definitions in the XML config file. 
+	*/
+	
+	initialize_cell_definitions_from_pugixml(); 
 
-    /*
-       This builds the map of cell definitions and summarizes the setup.
-    */
-        
-    build_cell_definitions_maps();
+	/*
+	   This builds the map of cell definitions and summarizes the setup. 
+	*/
+		
+	build_cell_definitions_maps(); 
 
-    /*
-       This intializes cell signal and response dictionaries
-    */
+	/*
+	   This intializes cell signal and response dictionaries 
+	*/
 
-    setup_signal_behavior_dictionaries();
+	setup_signal_behavior_dictionaries(); 	
 
-    /*
-       Put any modifications to individual cell definitions here.
-       
-       This is a good place to set custom functions.
-    */
-    
-    cell_defaults.functions.update_phenotype = phenotype_function;
-    cell_defaults.functions.custom_cell_rule = custom_function;
-    cell_defaults.functions.contact_function = contact_function;
-    
-    /*
-       This builds the map of cell definitions and summarizes the setup.
-    */
+	/* 
+	   Put any modifications to individual cell definitions here. 
+	   
+	   This is a good place to set custom functions. 
+	*/ 
+	
+	cell_defaults.functions.update_phenotype = phenotype_function; 
+	cell_defaults.functions.custom_cell_rule = custom_function; 
+	cell_defaults.functions.contact_function = contact_function; 
+	
+	/*
+	   This builds the map of cell definitions and summarizes the setup. 
+	*/
     
     Cell_Definition* pTumor_Up = find_cell_definition("Tumor_Up");
     Cell_Definition* pTumor_Down = find_cell_definition("Tumor_Down");
@@ -134,49 +134,49 @@ void create_cell_types( void )
     
     pFibroblast->functions.update_phenotype = fibroblasts_phenotype_function;
     pEndothelial->functions.update_phenotype = endothelial_phenotype_function;
-    pMacrophage->functions.update_phenotype = macrophages_phenotype_function;
-    pTumor_Down->functions.update_phenotype = tumor_down_phenotype_function;
-    pTumor_Up->functions.update_phenotype = tumor_up_phenotype_function;
+    pMacrophage->functions.update_phenotype = macrophages_phenotype_function; 
+    pTumor_Down->functions.update_phenotype = tumor_down_phenotype_function; 
+    pTumor_Up->functions.update_phenotype = tumor_up_phenotype_function; 
     pLung->functions.update_phenotype = phenotype_function;
     
     pTumor_Down->functions.custom_cell_rule = tumor_down_rule;
-    pTumor_Up->functions.custom_cell_rule = tumor_up_rule;
+    pTumor_Up->functions.custom_cell_rule = tumor_up_rule; 
     
-    pFibroblast->is_movable = false;
-    pEndothelial->is_movable = false;
+    pFibroblast->is_movable = false; 
+    pEndothelial->is_movable = false; 
     
      
     
-    display_cell_definitions( std::cout );
-    
-    return;
+	display_cell_definitions( std::cout ); 
+	
+	return; 
 }
 
 void setup_microenvironment( void )
 {
-    // set domain parameters
-    
-    // put any custom code to set non-homogeneous initial conditions or
-    // extra Dirichlet nodes here.
-    
-    // initialize BioFVM
-    
-    initialize_microenvironment();
-    
-    return;
+	// set domain parameters 
+	
+	// put any custom code to set non-homogeneous initial conditions or 
+	// extra Dirichlet nodes here. 
+	
+	// initialize BioFVM 
+	
+	initialize_microenvironment(); 	
+	
+	return; 
 }
 
 void setup_tissue( void )
-{
-    Cell* pC;
+{	
+	Cell* pC;
     Cell_Definition* pCD = find_cell_definition("Tumor_Down");
-    pC = create_cell( *pCD );
+	pC = create_cell( *pCD ); 
     pC->assign_position( {525,510,0} );
     
-    // load cells from your CSV file (if enabled)
-    load_cells_csv("./config/cells.csv");
-    
-    return;
+	// load cells from your CSV file (if enabled)
+	load_cells_csv("./config/cells.csv"); 	
+	
+	return; 
 }
 std::vector<std::string> my_coloring_function( Cell* pCell )
 {
@@ -236,7 +236,7 @@ std::vector<std::string> my_coloring_function( Cell* pCell )
     output[2] = "rgb(5,76,134)";
   }  return output; }
 
-    
+	
 void phenotype_function( Cell* pCell, Phenotype& phenotype, double dt )
 { return; }
 
@@ -266,9 +266,30 @@ void custom_function( Cell* pCell, Phenotype& phenotype, double dt )
 { return; }
 
 void tumor_up_phenotype_function( Cell* pCell, Phenotype& phenotype, double dt )
-{
+{     
+    /*
+    // limit division to not too dense systems
+    // if cell is dead, don't bother with future phenotype changes. 
+	if( phenotype.death.dead == true )
+	{
+		pCell->functions.update_phenotype = NULL; 		
+		return; 
+	}
+    static int cycle_start_index = live.find_phase_index( PhysiCell_constants::live ); 
+	static int cycle_end_index = live.find_phase_index( PhysiCell_constants::live ); 
+    double pressure = pCell->state.simple_pressure;
     
-    // look for E_to_T -> increase growth rate or whatever
+    double multiplier = 1.0;
+    if (pressure < 1) {
+        multiplier = 1 - pressure;
+    } else {
+        multiplier = 0.0;
+    }
+    phenotype.cycle.data.transition_rate(cycle_start_index,cycle_end_index) = multiplier * 
+		pCell->parameters.pReference_live_phenotype->cycle.data.transition_rate(cycle_start_index,cycle_end_index);
+    
+        */
+    // look for E_to_T -> increase growth rate or whatever 
     
     static int E_to_T_index = microenvironment.find_density_index( "E_to_T" );
     static int F_to_T_index = microenvironment.find_density_index( "F_to_T" );
@@ -278,115 +299,120 @@ void tumor_up_phenotype_function( Cell* pCell, Phenotype& phenotype, double dt )
     static int apoptosis_model_index = phenotype.death.find_death_model_index(PhysiCell_constants::apoptosis_death_model);
     
     if (E_to_T_Concentration > chemokine_threshold) {
-            // Increase proliferation
+            // Increase proliferation 
             pCell->phenotype.cycle.data.transition_rate(0,1) += 0.05*pCell->phenotype.cycle.data.transition_rate(0,1);
-            // Decrease apoptosis
+            // Decrease apoptosis 
             pCell->phenotype.death.rates[apoptosis_model_index] -= 0.05*pCell->phenotype.death.rates[apoptosis_model_index];
              
     }
-    // look for F_to_T -> decrease apoptosis or whatever
+    // look for F_to_T -> decrease apoptosis or whatever 
     if (F_to_T_Concentration > chemokine_threshold) {
-            // Increase proliferation
+            // Increase proliferation 
             pCell->phenotype.cycle.data.transition_rate(0,1) += 0.01*pCell->phenotype.cycle.data.transition_rate(0,1);
                          
     }
     
-    // eat lung cells
+    // eat lung cells 
     // Get lung cell definitions
     static Cell_Definition* pLung = find_cell_definition("Lung");
     
-    // Get neighborhood and see who is there
-    std::vector<Cell*> nearby = get_possible_neighbors( pCell);
+    // Get neighborhood and see who is there 
+    std::vector<Cell*> nearby = get_possible_neighbors( pCell); 
        
     for( int i=0 ; i < nearby.size() ; i++ )
     {
-        Cell* pC = nearby[i];
+        Cell* pC = nearby[i]; 
         // if lung cell in the neighborhood, increase its apoptosis a lot
         std::vector<double> my_pos = pCell->position;
         std::vector<double> neighbor_pos = pC->position;
         double dist;
-        dist = std::sqrt( (my_pos[0]-neighbor_pos[0])*(my_pos[0]-neighbor_pos[0]) + (my_pos[1]-neighbor_pos[1])*(my_pos[1]-neighbor_pos[1]) );
+        dist = std::sqrt( (my_pos[0]-neighbor_pos[0])*(my_pos[0]-neighbor_pos[0]) + (my_pos[1]-neighbor_pos[1])*(my_pos[1]-neighbor_pos[1]) ); 
         if( pC->type == pLung->type && dist < 18.0) {
             if (pC->phenotype.death.rates[apoptosis_model_index] < 1e-8) {
                 pC->phenotype.death.rates[apoptosis_model_index] = 1e-6;
             } else {
                 pC->phenotype.death.rates[apoptosis_model_index] += 10*pC->phenotype.death.rates[apoptosis_model_index];
-                break;
+                break; 
             }
-        }
-    }
+        } 
+    }     
     
     
-return;
+return; 
     
 }
 
 void tumor_down_phenotype_function( Cell* pCell, Phenotype& phenotype, double dt )
-{
-            
-    // eat lung cells
+{     
+    /*
+    // limit division to not too dense systems
+    // if cell is dead, don't bother with future phenotype changes. 
+	if( phenotype.death.dead == true )
+	{
+		pCell->functions.update_phenotype = NULL; 		
+		return; 
+	}
+    static int cycle_start_index = live.find_phase_index( PhysiCell_constants::live ); 
+	static int cycle_end_index = live.find_phase_index( PhysiCell_constants::live ); 
+    double pressure = pCell->state.simple_pressure;
+    
+    double multiplier = 1.0;
+    if (pressure < 1) {
+        multiplier = 1 - pressure;
+    } else {
+        multiplier = 0.0;
+    }
+    phenotype.cycle.data.transition_rate(cycle_start_index,cycle_end_index) = multiplier * 
+		pCell->parameters.pReference_live_phenotype->cycle.data.transition_rate(cycle_start_index,cycle_end_index);
+        */
+    // eat lung cells 
     // Get lung cell definitions
     static Cell_Definition* pLung = find_cell_definition("Lung");
     static int apoptosis_model_index = phenotype.death.find_death_model_index(PhysiCell_constants::apoptosis_death_model);
     
-    // Get neighborhood and see who is there
-    std::vector<Cell*> nearby = get_possible_neighbors( pCell);
+    // Get neighborhood and see who is there 
+    std::vector<Cell*> nearby = get_possible_neighbors( pCell); 
        
     for( int i=0 ; i < nearby.size() ; i++ )
     {
-        Cell* pC = nearby[i];
+        Cell* pC = nearby[i]; 
         // if lung cell in the neighborhood, increase its apoptosis 100-fold
         std::vector<double> my_pos = pCell->position;
         std::vector<double> neighbor_pos = pC->position;
         double dist;
-        dist = std::sqrt( (my_pos[0]-neighbor_pos[0])*(my_pos[0]-neighbor_pos[0]) + (my_pos[1]-neighbor_pos[1])*(my_pos[1]-neighbor_pos[1]) );
+        dist = std::sqrt( (my_pos[0]-neighbor_pos[0])*(my_pos[0]-neighbor_pos[0]) + (my_pos[1]-neighbor_pos[1])*(my_pos[1]-neighbor_pos[1]) ); 
         if( pC->type == pLung->type && dist < 18.0) {
             if (pC->phenotype.death.rates[apoptosis_model_index] < 1e-8) {
                 pC->phenotype.death.rates[apoptosis_model_index] = 1e-6;
             } else {
                 pC->phenotype.death.rates[apoptosis_model_index] += 10*pC->phenotype.death.rates[apoptosis_model_index];
-                break;
+                break; 
             }
         }
-    }
+    }        
     // see if chemo is on or off
-    // get chemo concentration
+    // get chemo concentration 
+    /*
     static int chemo = microenvironment.find_density_index( "chemo" );
     double chemoConcentration = (pCell->nearest_density_vector())[chemo];
     if (chemoConcentration>1) {
-            // induce cell apoptosis . highly increase apoptosis rate
+            // induce cell apoptosis . highly increase apoptosis rate 
             if (pCell->phenotype.death.rates[apoptosis_model_index] < 1e-8) {
                 pCell->phenotype.death.rates[apoptosis_model_index] = 1e-6;
             } else {
                 pCell->phenotype.death.rates[apoptosis_model_index] += 10*pCell->phenotype.death.rates[apoptosis_model_index];
-            }
+            }            
     }
+    */
     
     
     
-return;
+return; 
     
 }
 
-void tumor_down_rule( Cell* pCell, Phenotype& phenotype, double dt )
-{
-    
-    // chemo 
-    if (parameters.bools("apply_chemo")){
-    // check for treatment if cells proliferating 
-    static int start_phase_index = live.find_phase_index( PhysiCell_constants::live ); 
-	static int end_phase_index = live.find_phase_index( PhysiCell_constants::live ); 
-    static int apoptosis_model_index = phenotype.death.find_death_model_index(PhysiCell_constants::apoptosis_death_model);
-    
-    if (phenotype.cycle.data.transition_rate(start_phase_index, end_phase_index)>0.8*pCell->parameters.pReference_live_phenotype->cycle.data.transition_rate(start_phase_index,end_phase_index)){
-        double random_val = 0;
-        //SeedRandom();
-        random_val = UniformRandom();
-        if (random_val < .95){
-		    phenotype.death.rates[apoptosis_model_index] = 9e9;  
-        }
-    	}	
-    }
+void tumor_up_rule( Cell* pCell, Phenotype& phenotype, double dt )
+{ 
     // Get cell definitions
     static Cell_Definition* pTumor_Up = find_cell_definition("Tumor_Up");
     static Cell_Definition* pTumor_Down = find_cell_definition("Tumor_Down");
@@ -394,62 +420,63 @@ void tumor_down_rule( Cell* pCell, Phenotype& phenotype, double dt )
     static Cell_Definition* pMacrophage = find_cell_definition("Macrophage");
     static Cell_Definition* pEndothelial = find_cell_definition("Endothelial");
     static Cell_Definition* pLung = find_cell_definition("Lung");
-    // Get neighborhood and see who is there
-    std::vector<Cell*> nearby = get_possible_neighbors( pCell);
-    int number_of_good_cells = 0;
-    int number_of_bad_cells = 0;
+    // Get neighborhood and see who is there 
+    std::vector<Cell*> nearby = get_possible_neighbors( pCell); 
+    int number_of_good_cells = 0; 
+    int number_of_bad_cells = 0; 
     
     for( int i=0 ; i < nearby.size() ; i++ )
     {
-        Cell* pC = nearby[i];
-        // Is it a good cell ?
+        Cell* pC = nearby[i]; 
+        // Is it a good cell ? 
         if( pC->type == pLung->type) {
             number_of_bad_cells++;
         } else {
             number_of_good_cells++;
         }
-    }
-    // check the fraction of good to bad cells
+    }    
+    // check the fraction of good to bad cells 
     //if (number_of_good_cells > number_of_bad_cells) {
     if (number_of_bad_cells > 0) {
-        // generate random number
-        double random_val = 0;
-        int tumor_up_type_ID = pTumor_Up->type;
+        // generate random number 
+        double random_val = 0;	
+        int tumor_down_type_ID = pTumor_Down->type; 
         //SeedRandom();
         random_val = UniformRandom();
-        // with 20% percent probability set transformation rate of this cell to tumor down to infinity
+        // with 20% percent probability set transformation rate of this cell to tumor down to infinity 
         if (random_val < 0.8) {
                 
                 double transformation_rate = 9e9;
-                set_single_behavior(pCell,"transform to cell type "+std::to_string(tumor_up_type_ID),transformation_rate);
+                set_single_behavior(pCell,"transform to cell type "+std::to_string(tumor_down_type_ID),transformation_rate); 
         }
 
     }
         
     // see if JNK inhibitor is on or off
-    // get chemo concentration
+    /*
     static int JNK_inhibitor = microenvironment.find_density_index( "JNK_inhibitor" );
     double JNK_inhibitor_Concentration = (pCell->nearest_density_vector())[JNK_inhibitor];
     if (JNK_inhibitor_Concentration>1) {
-            // transform JNK+ to JNK-
-        // generate random number
-        double random_val = 0;
-        int tumor_down_type_ID = pTumor_Up->type;
+            // transform JNK+ to JNK- 
+        // generate random number 
+        double random_val = 0;	
+        int tumor_down_type_ID = pTumor_Down->type; 
         //SeedRandom();
         random_val = UniformRandom();
-        // with 20% percent probability set transformation rate of this cell to tumor down to infinity
+        // with 20% percent probability set transformation rate of this cell to tumor down to infinity 
         if (random_val < 0.8) {
                 
                 double transformation_rate = 9e9;
-                set_single_behavior(pCell,"transform to cell type "+std::to_string(tumor_down_type_ID),transformation_rate);
+                set_single_behavior(pCell,"transform to cell type "+std::to_string(tumor_down_type_ID),transformation_rate); 
         }
                        
-    }
+    }*/
     
 return; }
 
-void tumor_up_rule( Cell* pCell, Phenotype& phenotype, double dt )
-{
+void tumor_down_rule( Cell* pCell, Phenotype& phenotype, double dt )
+{ 
+    
     // Get cell definitions
     static Cell_Definition* pTumor_Up = find_cell_definition("Tumor_Up");
     static Cell_Definition* pTumor_Down = find_cell_definition("Tumor_Down");
@@ -457,48 +484,34 @@ void tumor_up_rule( Cell* pCell, Phenotype& phenotype, double dt )
     static Cell_Definition* pMacrophage = find_cell_definition("Macrophage");
     static Cell_Definition* pEndothelial = find_cell_definition("Endothelial");
     static Cell_Definition* pLung = find_cell_definition("Lung");
-    // JNK inhibition
-    
-    int tumor_down_type_ID = pTumor_Down->type;
-    if (parameters.bools("apply_JNK_inhibition")){
-        
-        double random_val = 0;
-        //SeedRandom();
-        random_val = UniformRandom();
-        if (random_val < parameters.doubles("JNK_inhibitor_strength")){
-		    set_single_behavior(pCell,"transform to cell type "+std::to_string(tumor_down_type_ID),9e9);  
-        }
-    		
-    }
-    
-    // Get neighborhood and see who is there
-    std::vector<Cell*> nearby = get_possible_neighbors( pCell);
-    int number_of_good_cells = 0;
-    int number_of_bad_cells = 0;
+    // Get neighborhood and see who is there 
+    std::vector<Cell*> nearby = get_possible_neighbors( pCell); 
+    int number_of_good_cells = 0; 
+    int number_of_bad_cells = 0; 
     
     for( int i=0 ; i < nearby.size() ; i++ )
     {
-        Cell* pC = nearby[i];
-        // Is it a good cell ?
+        Cell* pC = nearby[i]; 
+        // Is it a good cell ? 
         if( pC->type == pLung->type) {
             number_of_bad_cells++;
         } else {
             number_of_good_cells++;
         }
-    }
-    // check the fraction of good to bad cells
+    }    
+    // check the fraction of good to bad cells 
     //if (number_of_good_cells > number_of_bad_cells) {
     if (number_of_bad_cells == 0) {
-        // generate random number
-        double random_val = 0;
-        
+        // generate random number 
+        double random_val = 0;	
+        int tumor_up_type_ID = pTumor_Up->type; 
         //SeedRandom();
         random_val = UniformRandom();
-        // with 20% percent probability set transformation rate of this cell to tumor down to infinity
+        // with 20% percent probability set transformation rate of this cell to tumor down to infinity 
         if (random_val < 0.8) {
                 
                 double transformation_rate = 9e9;
-                set_single_behavior(pCell,"transform to cell type "+std::to_string(tumor_down_type_ID),transformation_rate);
+                set_single_behavior(pCell,"transform to cell type "+std::to_string(tumor_up_type_ID),transformation_rate); 
         }
 
     }
@@ -506,20 +519,20 @@ void tumor_up_rule( Cell* pCell, Phenotype& phenotype, double dt )
 return; }
 
 void fibroblasts_phenotype_function( Cell* pCell, Phenotype& phenotype, double dt )
-{
+{    
     static int chemokine_index = microenvironment.find_density_index( "T_to_F" );
     double chemokine_threshold = 1.0;
     double chemokineConcentration = (pCell->nearest_density_vector())[chemokine_index];
     if (chemokineConcentration > chemokine_threshold) {
-            // Activate
-            pCell->custom_data["activated"] = 1;
+            // Activate 
+            pCell->custom_data["activated"] = 1; 
     }
-    // If activate secrete
+    // If activate secrete 
         if (pCell->custom_data["activated"] == 1){
-            // Set secretion
-            std::string substrate_name = "F_to_T";
+            // Set secretion 
+            std::string substrate_name = "F_to_T"; 
             double value =  100; // secretion rate
-            std::string behavior = substrate_name+" secretion";
+            std::string behavior = substrate_name+" secretion";                        
             set_single_behavior(pCell,behavior,value);
                   
         }
@@ -534,15 +547,15 @@ void macrophages_phenotype_function( Cell* pCell, Phenotype& phenotype, double d
     double chemokine_threshold = 1.0;
     double chemokineConcentration = (pCell->nearest_density_vector())[chemokine_index];
     if (chemokineConcentration > chemokine_threshold) {
-            // Activate
-            pCell->custom_data["activated"] = 1;
+            // Activate 
+            pCell->custom_data["activated"] = 1; 
     }
-    // If activate secrete
+    // If activate secrete 
         if (pCell->custom_data["activated"] == 1){
-            // Set secretion
-            std::string substrate_name = "M_to_E";
+            // Set secretion 
+            std::string substrate_name = "M_to_E"; 
             double value =  100; // secretion rate
-            std::string behavior = substrate_name+" secretion";
+            std::string behavior = substrate_name+" secretion";                        
             set_single_behavior(pCell,behavior,value);
                   
         }
@@ -550,53 +563,53 @@ void macrophages_phenotype_function( Cell* pCell, Phenotype& phenotype, double d
 return; }
 
 void endothelial_phenotype_function( Cell* pCell, Phenotype& phenotype, double dt )
-{
+{    
     static int chemokine_index = microenvironment.find_density_index( "M_to_E" );
     double chemokine_threshold = 1.0;
     double chemokineConcentration = (pCell->nearest_density_vector())[chemokine_index];
     if (chemokineConcentration > chemokine_threshold) {
-            // Activate
-            pCell->custom_data["activated"] = 1;
+            // Activate 
+            pCell->custom_data["activated"] = 1; 
     }
-    // If activate secrete
+    // If activate secrete 
         if (pCell->custom_data["activated"] == 1){
-            // Set secretion
-            std::string substrate_name = "E_to_T";
+            // Set secretion 
+            std::string substrate_name = "E_to_T"; 
             double value =  100; // secretion rate
-            std::string behavior = substrate_name+" secretion";
+            std::string behavior = substrate_name+" secretion";                        
             set_single_behavior(pCell,behavior,value);
                   
         }
-    // Deactivate endothelial ???
+    // Deactivate endothelial ??? 
     
 return; }
 
 std::vector<Cell*> get_possible_neighbors( Cell* pCell)
 {
-    std::vector<Cell*> neighbors = {};
-    
-    // First check the neighbors in my current voxel
-    std::vector<Cell*>::iterator neighbor;
-    std::vector<Cell*>::iterator end =
-        pCell->get_container()->agent_grid[pCell->get_current_mechanics_voxel_index()].end();
-        
-    for( neighbor = pCell->get_container()->agent_grid[pCell->get_current_mechanics_voxel_index()].begin(); neighbor != end; ++neighbor)
-    { neighbors.push_back( *neighbor ); }
-    
-    std::vector<int>::iterator neighbor_voxel_index;
-    std::vector<int>::iterator neighbor_voxel_index_end
-        = pCell->get_container()->underlying_mesh.moore_connected_voxel_indices[pCell->get_current_mechanics_voxel_index()].end();
-    
-    for( neighbor_voxel_index = pCell->get_container()->underlying_mesh.moore_connected_voxel_indices[pCell->get_current_mechanics_voxel_index()].begin(); neighbor_voxel_index!= neighbor_voxel_index_end; ++neighbor_voxel_index)
-    {
-        if(!is_neighbor_voxel(pCell, pCell->get_container()->underlying_mesh.voxels[pCell->get_current_mechanics_voxel_index()].center, pCell->get_container()->underlying_mesh.voxels[*neighbor_voxel_index].center, *neighbor_voxel_index))
-        continue;
-        end = pCell->get_container()->agent_grid[*neighbor_voxel_index].end();
-        for(neighbor = pCell->get_container()->agent_grid[*neighbor_voxel_index].begin();neighbor != end; ++neighbor)
-        { neighbors.push_back( *neighbor ); }
-    }
-    return neighbors;
-}
+	std::vector<Cell*> neighbors = {};
+	
+	// First check the neighbors in my current voxel
+	std::vector<Cell*>::iterator neighbor;
+	std::vector<Cell*>::iterator end =
+		pCell->get_container()->agent_grid[pCell->get_current_mechanics_voxel_index()].end();
+		
+	for( neighbor = pCell->get_container()->agent_grid[pCell->get_current_mechanics_voxel_index()].begin(); neighbor != end; ++neighbor)
+	{ neighbors.push_back( *neighbor ); }
+	
+	std::vector<int>::iterator neighbor_voxel_index;
+	std::vector<int>::iterator neighbor_voxel_index_end
+		= pCell->get_container()->underlying_mesh.moore_connected_voxel_indices[pCell->get_current_mechanics_voxel_index()].end();
+	
+	for( neighbor_voxel_index = pCell->get_container()->underlying_mesh.moore_connected_voxel_indices[pCell->get_current_mechanics_voxel_index()].begin(); neighbor_voxel_index!= neighbor_voxel_index_end; ++neighbor_voxel_index)
+	{
+		if(!is_neighbor_voxel(pCell, pCell->get_container()->underlying_mesh.voxels[pCell->get_current_mechanics_voxel_index()].center, pCell->get_container()->underlying_mesh.voxels[*neighbor_voxel_index].center, *neighbor_voxel_index))
+		continue;
+		end = pCell->get_container()->agent_grid[*neighbor_voxel_index].end();
+		for(neighbor = pCell->get_container()->agent_grid[*neighbor_voxel_index].begin();neighbor != end; ++neighbor)
+		{ neighbors.push_back( *neighbor ); }
+	}
+	return neighbors;
+}	
 
 void contact_function( Cell* pMe, Phenotype& phenoMe , Cell* pOther, Phenotype& phenoOther , double dt )
 { return; } 

@@ -221,6 +221,13 @@ int main( int argc, char* argv[] )
 			/*
 			  Custom add-ons could potentially go here. 
 			*/
+            
+            if( fabs( PhysiCell_globals.current_time - 0 ) < 0.01 * diffusion_dt ) {
+                parameters.bools("apply_chemo") = true;                 
+            }
+            if( fabs( PhysiCell_globals.current_time - 0 ) < 0.01 * diffusion_dt ) {
+                parameters.bools("apply_JNK_inhibitor") = true;                 
+            }
 			
 			PhysiCell_globals.current_time += diffusion_dt;
 		}
