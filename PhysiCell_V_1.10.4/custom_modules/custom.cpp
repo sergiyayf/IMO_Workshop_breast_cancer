@@ -135,8 +135,8 @@ void create_cell_types( void )
     pFibroblast->functions.update_phenotype = fibroblasts_phenotype_function;
     pEndothelial->functions.update_phenotype = endothelial_phenotype_function;
     pMacrophage->functions.update_phenotype = macrophages_phenotype_function; 
-    pTumor_Down->functions.update_phenotype = tumor_phenotype_function; 
-    pTumor_Up->functions.update_phenotype = tumor_phenotype_function; 
+    pTumor_Down->functions.update_phenotype = tumor_down_phenotype_function; 
+    pTumor_Up->functions.update_phenotype = tumor_up_phenotype_function; 
     pLung->functions.update_phenotype = phenotype_function;
     
      
@@ -163,9 +163,9 @@ void setup_microenvironment( void )
 void setup_tissue( void )
 {	
 	Cell* pC;
-    Cell_Definition* pCD = find_cell_definition("Tumor_Up");
+    Cell_Definition* pCD = find_cell_definition("Tumor_Down");
 	pC = create_cell( *pCD ); 
-    pC->assign_position( {0,0,0} );
+    pC->assign_position( {525,510,0} );
     
 	// load cells from your CSV file (if enabled)
 	load_cells_csv(".\\config\\cells.csv"); 	
@@ -267,15 +267,11 @@ void tumor_up_phenotype_function( Cell* pCell, Phenotype& phenotype, double dt )
             pCell->phenotype.cycle.data.transition_rate(0,1) += 0.01*pCell->phenotype.cycle.data.transition_rate(0,1);
                          
     }
-        
-    // maybe secrete T_to_F ?? 
-    
-    // maybe secrete T_to_M ??
     
     // eat lung cells 
     // Get lung cell definitions
     static Cell_Definition* pLung = find_cell_definition("Lung");
-    static int apoptosis_model_index = phenotype.death.find_death_model_index(PhysiCell_constants::apoptosis_death_model);
+    
     // Get neighborhood and see who is there 
     std::vector<Cell*> nearby = get_possible_neighbors( pCell); 
        
