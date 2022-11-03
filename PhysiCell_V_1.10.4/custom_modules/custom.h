@@ -84,20 +84,20 @@ void setup_microenvironment( void );
 std::vector<std::string> my_coloring_function( Cell* );
 
 // custom functions can go here 
-void cancer_cells_phenotype_function( Cell* pCell, Phenotype& phenotype, double dt );
-void cancer_cells_custom_function( Cell* pCell, Phenotype& phenotype , double dt );
-void blood_vessels_phenotype_function( Cell* pCell, Phenotype& phenotype, double dt );
-void blood_vessels_custom_function( Cell* pCell, Phenotype& phenotype , double dt );
-void stromal_cells_phenotype_function( Cell* pCell, Phenotype& phenotype, double dt );
-void stromal_cells_custom_function( Cell* pCell, Phenotype& phenotype , double dt );
-void fibroblasts_phenotype_function( Cell* pCell, Phenotype& phenotype, double dt );
-void fibroblasts_custom_function( Cell* pCell, Phenotype& phenotype , double dt );
-void macrophages_phenotype_function( Cell* pCell, Phenotype& phenotype, double dt );
-void macrophages_custom_function( Cell* pCell, Phenotype& phenotype , double dt );
-
 
 void phenotype_function( Cell* pCell, Phenotype& phenotype, double dt );
+void custom_function_switch( Cell* pCell, Phenotype& phenotype, double dt );
 void custom_function( Cell* pCell, Phenotype& phenotype , double dt );
+
+void fibroblasts_phenotype_function( Cell* pCell, Phenotype& phenotype , double dt );
+void macrophages_phenotype_function( Cell* pCell, Phenotype& phenotype , double dt );
+void endothelial_phenotype_function( Cell* pCell, Phenotype& phenotype , double dt );
+void tumor_phenotype_function( Cell* pCell, Phenotype& phenotype , double dt );
+
+void tumor_up_rule( Cell* pCell, Phenotype& phenotype, double dt );
+void tumor_down_rule( Cell* pCell, Phenotype& phenotype, double dt );
+
 
 void contact_function( Cell* pMe, Phenotype& phenoMe , Cell* pOther, Phenotype& phenoOther , double dt ); 
 
+std::vector<Cell*> get_possible_neighbors( Cell* pCell); 
