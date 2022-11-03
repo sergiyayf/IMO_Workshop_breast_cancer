@@ -240,6 +240,28 @@ std::vector<std::string> my_coloring_function( Cell* pCell )
 void phenotype_function( Cell* pCell, Phenotype& phenotype, double dt )
 { return; }
 
+void activate_JNK_inhibition( void )
+{
+    static int JNK_inhibitor = microenvironment.find_density_index( "JNK_inhibitor" );
+    microenvironment.set_substrate_dirichlet_activation(JNK_inhibitor,true);
+}
+void deactivate_JNK_inhibition( void )
+{
+    static int JNK_inhibitor = microenvironment.find_density_index( "JNK_inhibitor" );
+    microenvironment.set_substrate_dirichlet_activation(JNK_inhibitor,true);
+}
+void activate_therapy( void )
+{
+    static int chemo = microenvironment.find_density_index( "chemo" );
+    microenvironment.set_substrate_dirichlet_activation(chemo,true);
+}
+void deactivate_therapy( void )
+{
+    static int chemo = microenvironment.find_density_index( "chemo" );
+    microenvironment.set_substrate_dirichlet_activation(chemo,true);
+}
+
+
 void custom_function( Cell* pCell, Phenotype& phenotype, double dt )
 { return; }
 
@@ -247,6 +269,7 @@ void tumor_up_phenotype_function( Cell* pCell, Phenotype& phenotype, double dt )
 {     
     
     // look for E_to_T -> increase growth rate or whatever 
+    
     static int E_to_T_index = microenvironment.find_density_index( "E_to_T" );
     static int F_to_T_index = microenvironment.find_density_index( "F_to_T" );
     double chemokine_threshold = 1.0;
@@ -278,11 +301,21 @@ void tumor_up_phenotype_function( Cell* pCell, Phenotype& phenotype, double dt )
     for( int i=0 ; i < nearby.size() ; i++ )
     {
         Cell* pC = nearby[i]; 
-        // if lung cell in the neighborhood, increase its apoptosis 100-fold
-        if( pC->type == pLung->type) {
-            pC->phenotype.death.rates[apoptosis_model_index] = 9e9;
+        // if lung cell in the neighborhood, increase its apoptosis a lot
+        std::vector<double> my_pos = pCell->position;
+        std::vector<double> neighbor_pos = pC->position;
+        double dist;
+        dist = std::sqrt( (my_pos[0]-neighbor_pos[0])*(my_pos[0]-neighbor_pos[0]) + (my_pos[1]-neighbor_pos[1])*(my_pos[1]-neighbor_pos[1]) ); 
+        if( pC->type == pLung->type && dist < 18.0) {
+            if (pC->phenotype.death.rates[apoptosis_model_index] < 1e-8) {
+                pC->phenotype.death.rates[apoptosis_model_index] = 1e-6;
+            } else {
+                pC->phenotype.death.rates[apoptosis_model_index] += 10*pC->phenotype.death.rates[apoptosis_model_index];
+                break; 
+            }
         } 
     }     
+    
     
 return; 
     
@@ -290,19 +323,12 @@ return;
 
 void tumor_down_phenotype_function( Cell* pCell, Phenotype& phenotype, double dt )
 {     
-    
-    // look for E_to_T -> increase growth rate or whatever 
-    
-    // look for F_to_T -> decrease apoptosis or whatever 
-    
-    // maybe secrete T_to_F ?? 
-    
-    // maybe secrete T_to_M ??
-    
+            
     // eat lung cells 
     // Get lung cell definitions
     static Cell_Definition* pLung = find_cell_definition("Lung");
     static int apoptosis_model_index = phenotype.death.find_death_model_index(PhysiCell_constants::apoptosis_death_model);
+    
     // Get neighborhood and see who is there 
     std::vector<Cell*> nearby = get_possible_neighbors( pCell); 
        
@@ -310,10 +336,33 @@ void tumor_down_phenotype_function( Cell* pCell, Phenotype& phenotype, double dt
     {
         Cell* pC = nearby[i]; 
         // if lung cell in the neighborhood, increase its apoptosis 100-fold
-        if( pC->type == pLung->type) {
-            pC->phenotype.death.rates[apoptosis_model_index] = 9e9;
-        } 
-    }     
+        std::vector<double> my_pos = pCell->position;
+        std::vector<double> neighbor_pos = pC->position;
+        double dist;
+        dist = std::sqrt( (my_pos[0]-neighbor_pos[0])*(my_pos[0]-neighbor_pos[0]) + (my_pos[1]-neighbor_pos[1])*(my_pos[1]-neighbor_pos[1]) ); 
+        if( pC->type == pLung->type && dist < 18.0) {
+            if (pC->phenotype.death.rates[apoptosis_model_index] < 1e-8) {
+                pC->phenotype.death.rates[apoptosis_model_index] = 1e-6;
+            } else {
+                pC->phenotype.death.rates[apoptosis_model_index] += 10*pC->phenotype.death.rates[apoptosis_model_index];
+                break; 
+            }
+        }
+    }        
+    // see if chemo is on or off
+    // get chemo concentration 
+    static int chemo = microenvironment.find_density_index( "chemo" );
+    double chemoConcentration = (pCell->nearest_density_vector())[chemo];
+    if (chemoConcentration>1) {
+            // induce cell apoptosis . highly increase apoptosis rate 
+            if (pCell->phenotype.death.rates[apoptosis_model_index] < 1e-8) {
+                pCell->phenotype.death.rates[apoptosis_model_index] = 1e-6;
+            } else {
+                pCell->phenotype.death.rates[apoptosis_model_index] += 10*pCell->phenotype.death.rates[apoptosis_model_index];
+            }            
+    }
+    
+    
     
 return; 
     
@@ -359,7 +408,26 @@ void tumor_up_rule( Cell* pCell, Phenotype& phenotype, double dt )
         }
 
     }
-         
+        
+    // see if JNK inhibitor is on or off
+    // get chemo concentration 
+    static int JNK_inhibitor = microenvironment.find_density_index( "JNK_inhibitor" );
+    double JNK_inhibitor_Concentration = (pCell->nearest_density_vector())[JNK_inhibitor];
+    if (JNK_inhibitor_Concentration>1) {
+            // transform JNK+ to JNK- 
+        // generate random number 
+        double random_val = 0;	
+        int tumor_down_type_ID = pTumor_Down->type; 
+        //SeedRandom();
+        random_val = UniformRandom();
+        // with 20% percent probability set transformation rate of this cell to tumor down to infinity 
+        if (random_val < 0.8) {
+                
+                double transformation_rate = 9e9;
+                set_single_behavior(pCell,"transform to cell type "+std::to_string(tumor_down_type_ID),transformation_rate); 
+        }
+                       
+    }
     
 return; }
 
