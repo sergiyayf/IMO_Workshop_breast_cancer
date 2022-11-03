@@ -229,7 +229,7 @@ std::vector<std::string> my_coloring_function( Cell* pCell )
     else if (pCell->type == pFibroblast->type && pCell->custom_data["activated"]==0){
         output[0] = "rgb(138,43,226)"; 
         output[2] = "rgb(138,43,226)"; 
-    } else if (pCell->type == pFibroblast && pCell->custom_data["activated"]==1){
+    } else if (pCell->type == pFibroblast->type && pCell->custom_data["activated"]==1){
         output[0] = "rgb(75,0,130)"; 
         output[2] = "rgb(75,0,130)"; 
     }
@@ -243,7 +243,56 @@ void phenotype_function( Cell* pCell, Phenotype& phenotype, double dt )
 void custom_function( Cell* pCell, Phenotype& phenotype, double dt )
 { return; }
 
-void tumor_phenotype_function( Cell* pCell, Phenotype& phenotype, double dt )
+void tumor_up_phenotype_function( Cell* pCell, Phenotype& phenotype, double dt )
+{     
+    
+    // look for E_to_T -> increase growth rate or whatever 
+    static int E_to_T_index = microenvironment.find_density_index( "E_to_T" );
+    static int F_to_T_index = microenvironment.find_density_index( "F_to_T" );
+    double chemokine_threshold = 1.0;
+    double E_to_T_Concentration = (pCell->nearest_density_vector())[E_to_T_index];
+    double F_to_T_Concentration = (pCell->nearest_density_vector())[F_to_T_index];
+    static int apoptosis_model_index = phenotype.death.find_death_model_index(PhysiCell_constants::apoptosis_death_model);
+    
+    if (E_to_T_Concentration > chemokine_threshold) {
+            // Increase proliferation 
+            pCell->phenotype.cycle.data.transition_rate(0,1) += 0.05*pCell->phenotype.cycle.data.transition_rate(0,1);
+            // Decrease apoptosis 
+            pCell->phenotype.death.rates[apoptosis_model_index] -= 0.05*pCell->phenotype.death.rates[apoptosis_model_index];
+             
+    }
+    // look for F_to_T -> decrease apoptosis or whatever 
+    if (F_to_T_Concentration > chemokine_threshold) {
+            // Increase proliferation 
+            pCell->phenotype.cycle.data.transition_rate(0,1) += 0.01*pCell->phenotype.cycle.data.transition_rate(0,1);
+                         
+    }
+        
+    // maybe secrete T_to_F ?? 
+    
+    // maybe secrete T_to_M ??
+    
+    // eat lung cells 
+    // Get lung cell definitions
+    static Cell_Definition* pLung = find_cell_definition("Lung");
+    static int apoptosis_model_index = phenotype.death.find_death_model_index(PhysiCell_constants::apoptosis_death_model);
+    // Get neighborhood and see who is there 
+    std::vector<Cell*> nearby = get_possible_neighbors( pCell); 
+       
+    for( int i=0 ; i < nearby.size() ; i++ )
+    {
+        Cell* pC = nearby[i]; 
+        // if lung cell in the neighborhood, increase its apoptosis 100-fold
+        if( pC->type == pLung->type) {
+            pC->phenotype.death.rates[apoptosis_model_index] = 9e9;
+        } 
+    }     
+    
+return; 
+    
+}
+
+void tumor_down_phenotype_function( Cell* pCell, Phenotype& phenotype, double dt )
 {     
     
     // look for E_to_T -> increase growth rate or whatever 
@@ -266,7 +315,7 @@ void tumor_phenotype_function( Cell* pCell, Phenotype& phenotype, double dt )
         Cell* pC = nearby[i]; 
         // if lung cell in the neighborhood, increase its apoptosis 100-fold
         if( pC->type == pLung->type) {
-            pC->phenotype.death.rates[apoptosis_model_index] = 100*pC->parameters.pReference_live_phenotype->death.rates[apoptosis_model_index];
+            pC->phenotype.death.rates[apoptosis_model_index] = 9e9;
         } 
     }     
     
@@ -292,22 +341,22 @@ void tumor_up_rule( Cell* pCell, Phenotype& phenotype, double dt )
     {
         Cell* pC = nearby[i]; 
         // Is it a good cell ? 
-        if( pC->type == pTumor_Up->type || pC->type == pTumor_Down->type || pC->type == pLung->type) {
-            number_of_good_cells++;
-        } else {
+        if( pC->type == pLung->type) {
             number_of_bad_cells++;
+        } else {
+            number_of_good_cells++;
         }
     }    
     // check the fraction of good to bad cells 
-    if (number_of_good_cells > number_of_bad_cells) {
-            
+    //if (number_of_good_cells > number_of_bad_cells) {
+    if (number_of_bad_cells > 0) {
         // generate random number 
         double random_val = 0;	
         int tumor_down_type_ID = pTumor_Down->type; 
         //SeedRandom();
         random_val = UniformRandom();
         // with 20% percent probability set transformation rate of this cell to tumor down to infinity 
-        if (random_val < 0.2) {
+        if (random_val < 0.8) {
                 
                 double transformation_rate = 9e9;
                 set_single_behavior(pCell,"transform to cell type "+std::to_string(tumor_down_type_ID),transformation_rate); 
@@ -320,6 +369,45 @@ return; }
 
 void tumor_down_rule( Cell* pCell, Phenotype& phenotype, double dt )
 { 
+    
+    // Get cell definitions
+    static Cell_Definition* pTumor_Up = find_cell_definition("Tumor_Up");
+    static Cell_Definition* pTumor_Down = find_cell_definition("Tumor_Down");
+    static Cell_Definition* pFibroblast = find_cell_definition("Fibroblast");
+    static Cell_Definition* pMacrophage = find_cell_definition("Macrophage");
+    static Cell_Definition* pEndothelial = find_cell_definition("Endothelial");
+    static Cell_Definition* pLung = find_cell_definition("Lung");
+    // Get neighborhood and see who is there 
+    std::vector<Cell*> nearby = get_possible_neighbors( pCell); 
+    int number_of_good_cells = 0; 
+    int number_of_bad_cells = 0; 
+    
+    for( int i=0 ; i < nearby.size() ; i++ )
+    {
+        Cell* pC = nearby[i]; 
+        // Is it a good cell ? 
+        if( pC->type == pLung->type) {
+            number_of_bad_cells++;
+        } else {
+            number_of_good_cells++;
+        }
+    }    
+    // check the fraction of good to bad cells 
+    //if (number_of_good_cells > number_of_bad_cells) {
+    if (number_of_bad_cells == 0) {
+        // generate random number 
+        double random_val = 0;	
+        int tumor_up_type_ID = pTumor_Up->type; 
+        //SeedRandom();
+        random_val = UniformRandom();
+        // with 20% percent probability set transformation rate of this cell to tumor down to infinity 
+        if (random_val < 0.8) {
+                
+                double transformation_rate = 9e9;
+                set_single_behavior(pCell,"transform to cell type "+std::to_string(tumor_up_type_ID),transformation_rate); 
+        }
+
+    }
     
 return; }
 

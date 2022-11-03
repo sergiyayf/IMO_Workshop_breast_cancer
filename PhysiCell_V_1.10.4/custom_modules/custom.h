@@ -92,7 +92,8 @@ void custom_function( Cell* pCell, Phenotype& phenotype , double dt );
 void fibroblasts_phenotype_function( Cell* pCell, Phenotype& phenotype , double dt );
 void macrophages_phenotype_function( Cell* pCell, Phenotype& phenotype , double dt );
 void endothelial_phenotype_function( Cell* pCell, Phenotype& phenotype , double dt );
-void tumor_phenotype_function( Cell* pCell, Phenotype& phenotype , double dt );
+void tumor_up_phenotype_function( Cell* pCell, Phenotype& phenotype , double dt );
+void tumor_down_phenotype_function( Cell* pCell, Phenotype& phenotype , double dt );
 
 void tumor_up_rule( Cell* pCell, Phenotype& phenotype, double dt );
 void tumor_down_rule( Cell* pCell, Phenotype& phenotype, double dt );
