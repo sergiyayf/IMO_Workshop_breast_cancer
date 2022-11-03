@@ -349,19 +349,7 @@ void tumor_down_phenotype_function( Cell* pCell, Phenotype& phenotype, double dt
             }
         }
     }
-    // see if chemo is on or off
-    // get chemo concentration
-    static int chemo = microenvironment.find_density_index( "chemo" );
-    double chemoConcentration = (pCell->nearest_density_vector())[chemo];
-    if (chemoConcentration>1) {
-            // induce cell apoptosis . highly increase apoptosis rate
-            if (pCell->phenotype.death.rates[apoptosis_model_index] < 1e-8) {
-                pCell->phenotype.death.rates[apoptosis_model_index] = 1e-6;
-            } else {
-                pCell->phenotype.death.rates[apoptosis_model_index] += 10*pCell->phenotype.death.rates[apoptosis_model_index];
-            }
-    }
-    
+       
     
     
 return;
@@ -396,22 +384,19 @@ void tumor_down_rule( Cell* pCell, Phenotype& phenotype, double dt )
     static Cell_Definition* pLung = find_cell_definition("Lung");
     // Get neighborhood and see who is there
     std::vector<Cell*> nearby = get_possible_neighbors( pCell);
-    int number_of_good_cells = 0;
-    int number_of_bad_cells = 0;
-    
+    int number_of_lung_cells = 0;
+        
     for( int i=0 ; i < nearby.size() ; i++ )
     {
         Cell* pC = nearby[i];
         // Is it a good cell ?
         if( pC->type == pLung->type) {
-            number_of_bad_cells++;
-        } else {
-            number_of_good_cells++;
+            number_of_lung_cells++;
         }
     }
     // check the fraction of good to bad cells
     //if (number_of_good_cells > number_of_bad_cells) {
-    if (number_of_bad_cells > 0) {
+    if (number_of_lung_cells > 0) {
         // generate random number
         double random_val = 0;
         int tumor_up_type_ID = pTumor_Up->type;
@@ -426,25 +411,6 @@ void tumor_down_rule( Cell* pCell, Phenotype& phenotype, double dt )
 
     }
         
-    // see if JNK inhibitor is on or off
-    // get chemo concentration
-    static int JNK_inhibitor = microenvironment.find_density_index( "JNK_inhibitor" );
-    double JNK_inhibitor_Concentration = (pCell->nearest_density_vector())[JNK_inhibitor];
-    if (JNK_inhibitor_Concentration>1) {
-            // transform JNK+ to JNK-
-        // generate random number
-        double random_val = 0;
-        int tumor_down_type_ID = pTumor_Up->type;
-        //SeedRandom();
-        random_val = UniformRandom();
-        // with 20% percent probability set transformation rate of this cell to tumor down to infinity
-        if (random_val < 0.8) {
-                
-                double transformation_rate = 9e9;
-                set_single_behavior(pCell,"transform to cell type "+std::to_string(tumor_down_type_ID),transformation_rate);
-        }
-                       
-    }
     
 return; }
 
@@ -473,22 +439,19 @@ void tumor_up_rule( Cell* pCell, Phenotype& phenotype, double dt )
     
     // Get neighborhood and see who is there
     std::vector<Cell*> nearby = get_possible_neighbors( pCell);
-    int number_of_good_cells = 0;
-    int number_of_bad_cells = 0;
+    int number_of_lung_cells = 0;
     
     for( int i=0 ; i < nearby.size() ; i++ )
     {
         Cell* pC = nearby[i];
         // Is it a good cell ?
         if( pC->type == pLung->type) {
-            number_of_bad_cells++;
-        } else {
-            number_of_good_cells++;
-        }
+            number_of_lung_cells++;
+        } 
     }
     // check the fraction of good to bad cells
     //if (number_of_good_cells > number_of_bad_cells) {
-    if (number_of_bad_cells == 0) {
+    if (number_of_lung_cells == 0) {
         // generate random number
         double random_val = 0;
         

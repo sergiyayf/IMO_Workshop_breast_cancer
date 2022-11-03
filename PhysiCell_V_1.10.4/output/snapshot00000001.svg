@@ -25,8 +25,8 @@
   </g>
   <g id="cells">
    <g id="cell0" type="Tumor_Down" dead="false" >
-  <circle cx="545.11" cy="529.662" r="8.41271" stroke-width="0.5" stroke="rgb(0,0,0)" fill="rgb(127,127,127)"/>
-  <circle cx="545.11" cy="529.662" r="5.05167" stroke-width="0.5" stroke="rgb(0,0,0)" fill="rgb(127,127,127)"/>
+  <circle cx="544.935" cy="529.835" r="8.41271" stroke-width="0.5" stroke="rgb(0,0,0)" fill="rgb(127,127,127)"/>
+  <circle cx="544.935" cy="529.835" r="5.05167" stroke-width="0.5" stroke="rgb(0,0,0)" fill="rgb(127,127,127)"/>
    </g>
    <g id="cell1" type="Fibroblast" dead="false" >
   <circle cx="23" cy="320" r="7.85962" stroke-width="0.5" stroke="rgb(0,0,0)" fill="rgb(55,126,184)"/>
@@ -5709,8 +5709,8 @@
   <circle cx="575.298" cy="470.375" r="4.0644" stroke-width="0.5" stroke="rgb(0,0,0)" fill="rgb(238,130,238)"/>
    </g>
    <g id="cell1421" type="Lung" dead="false" >
-  <circle cx="575.017" cy="544.903" r="7.85962" stroke-width="0.5" stroke="rgb(0,0,0)" fill="rgb(238,130,238)"/>
-  <circle cx="575.017" cy="544.903" r="4.0644" stroke-width="0.5" stroke="rgb(0,0,0)" fill="rgb(238,130,238)"/>
+  <circle cx="575.006" cy="544.903" r="7.85962" stroke-width="0.5" stroke="rgb(0,0,0)" fill="rgb(238,130,238)"/>
+  <circle cx="575.006" cy="544.903" r="4.0644" stroke-width="0.5" stroke="rgb(0,0,0)" fill="rgb(238,130,238)"/>
    </g>
    <g id="cell1422" type="Lung" dead="false" >
   <circle cx="575.381" cy="589.999" r="7.85962" stroke-width="0.5" stroke="rgb(0,0,0)" fill="rgb(238,130,238)"/>
@@ -7581,8 +7581,8 @@
   <circle cx="544.607" cy="440.001" r="4.0644" stroke-width="0.5" stroke="rgb(0,0,0)" fill="rgb(238,130,238)"/>
    </g>
    <g id="cell1889" type="Lung" dead="false" >
-  <circle cx="544.603" cy="574.995" r="7.85962" stroke-width="0.5" stroke="rgb(0,0,0)" fill="rgb(238,130,238)"/>
-  <circle cx="544.603" cy="574.995" r="4.0644" stroke-width="0.5" stroke="rgb(0,0,0)" fill="rgb(238,130,238)"/>
+  <circle cx="544.603" cy="574.992" r="7.85962" stroke-width="0.5" stroke="rgb(0,0,0)" fill="rgb(238,130,238)"/>
+  <circle cx="544.603" cy="574.992" r="4.0644" stroke-width="0.5" stroke="rgb(0,0,0)" fill="rgb(238,130,238)"/>
    </g>
    <g id="cell1890" type="Lung" dead="false" >
   <circle cx="544.624" cy="605.097" r="7.85962" stroke-width="0.5" stroke="rgb(0,0,0)" fill="rgb(238,130,238)"/>
@@ -7641,8 +7641,8 @@
   <circle cx="559.707" cy="470.392" r="4.0644" stroke-width="0.5" stroke="rgb(0,0,0)" fill="rgb(238,130,238)"/>
    </g>
    <g id="cell1904" type="Lung" dead="false" >
-  <circle cx="560.055" cy="545.005" r="7.85962" stroke-width="0.5" stroke="rgb(0,0,0)" fill="rgb(238,130,238)"/>
-  <circle cx="560.055" cy="545.005" r="4.0644" stroke-width="0.5" stroke="rgb(0,0,0)" fill="rgb(238,130,238)"/>
+  <circle cx="559.994" cy="545.007" r="7.85962" stroke-width="0.5" stroke="rgb(0,0,0)" fill="rgb(238,130,238)"/>
+  <circle cx="559.994" cy="545.007" r="4.0644" stroke-width="0.5" stroke="rgb(0,0,0)" fill="rgb(238,130,238)"/>
    </g>
    <g id="cell1905" type="Lung" dead="false" >
   <circle cx="559.613" cy="635" r="7.85962" stroke-width="0.5" stroke="rgb(0,0,0)" fill="rgb(238,130,238)"/>
@@ -7669,8 +7669,8 @@
   <circle cx="575.078" cy="319.624" r="4.0644" stroke-width="0.5" stroke="rgb(0,0,0)" fill="rgb(238,130,238)"/>
    </g>
    <g id="cell1911" type="Lung" dead="false" >
-  <circle cx="574.62" cy="529.606" r="7.85962" stroke-width="0.5" stroke="rgb(0,0,0)" fill="rgb(238,130,238)"/>
-  <circle cx="574.62" cy="529.606" r="4.0644" stroke-width="0.5" stroke="rgb(0,0,0)" fill="rgb(238,130,238)"/>
+  <circle cx="574.62" cy="529.605" r="7.85962" stroke-width="0.5" stroke="rgb(0,0,0)" fill="rgb(238,130,238)"/>
+  <circle cx="574.62" cy="529.605" r="4.0644" stroke-width="0.5" stroke="rgb(0,0,0)" fill="rgb(238,130,238)"/>
    </g>
    <g id="cell1912" type="Lung" dead="false" >
   <circle cx="574.611" cy="559.981" r="7.85962" stroke-width="0.5" stroke="rgb(0,0,0)" fill="rgb(238,130,238)"/>
@@ -9173,8 +9173,8 @@
   <circle cx="514.905" cy="844.614" r="4.0644" stroke-width="0.5" stroke="rgb(0,0,0)" fill="rgb(238,130,238)"/>
    </g>
    <g id="cell2287" type="Lung" dead="false" >
-  <circle cx="545.004" cy="559.965" r="7.85962" stroke-width="0.5" stroke="rgb(0,0,0)" fill="rgb(238,130,238)"/>
-  <circle cx="545.004" cy="559.965" r="4.0644" stroke-width="0.5" stroke="rgb(0,0,0)" fill="rgb(238,130,238)"/>
+  <circle cx="545.008" cy="559.923" r="7.85962" stroke-width="0.5" stroke="rgb(0,0,0)" fill="rgb(238,130,238)"/>
+  <circle cx="545.008" cy="559.923" r="4.0644" stroke-width="0.5" stroke="rgb(0,0,0)" fill="rgb(238,130,238)"/>
    </g>
    <g id="cell2288" type="Lung" dead="false" >
   <circle cx="545.309" cy="890.001" r="7.85962" stroke-width="0.5" stroke="rgb(0,0,0)" fill="rgb(238,130,238)"/>
@@ -9961,8 +9961,8 @@
   <circle cx="515" cy="560.376" r="4.0644" stroke-width="0.5" stroke="rgb(0,0,0)" fill="rgb(238,130,238)"/>
    </g>
    <g id="cell2484" type="Tumor_Up" dead="false" >
-  <circle cx="545.173" cy="544.907" r="7.85962" stroke-width="0.5" stroke="rgb(0,0,0)" fill="rgb(50,50,50)"/>
-  <circle cx="545.173" cy="544.907" r="4.0644" stroke-width="0.5" stroke="rgb(0,0,0)" fill="rgb(50,50,50)"/>
+  <circle cx="544.994" cy="544.6" r="7.85962" stroke-width="0.5" stroke="rgb(0,0,0)" fill="rgb(50,50,50)"/>
+  <circle cx="544.994" cy="544.6" r="4.0644" stroke-width="0.5" stroke="rgb(0,0,0)" fill="rgb(50,50,50)"/>
    </g>
   </g>
  </g>
@@ -9973,7 +9973,7 @@
   </text>
   <text x="26.5" y="1107.7"
    font-family="Arial" font-size="19.875" fill="black" >
-   0 days, 0 hours, 0 minutes, and 12.6771 seconds
+   0 days, 0 hours, 0 minutes, and 11.1050 seconds
   </text>
   <rect x="0" y="74.2" width="1060" height="1060" stroke-width="2.12" stroke="rgb(0,0,0)" fill="none"/>
 </svg>
