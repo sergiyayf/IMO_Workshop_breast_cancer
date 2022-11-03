@@ -81,7 +81,7 @@ def plot_microenv(fig,ax=None,cmap=plt.get_cmap('viridis'),vmin=0,vmax=38):
     ax.set_ylabel('y (micron)')
 
 
-#mcds = pyMCDS('output00000011.xml', '..\\results\\output')
+mcds = pyMCDS('initial.xml', '..\\PhysiCell_V_1.10.4\\output')
 #plot_microenv();
 #print(mcds.get_concentrations('drug', z_slice=0.00))
 

@@ -480,13 +480,13 @@ class pyMCDS:
         for label in cell_node.find('labels').findall('label'):
             # I don't like spaces in my dictionary keys
             fixed_label = label.text.replace(' ', '_')
-            if int(label.get('size')) > 1:
-                # tags to differentiate repeated labels (usually space related)
-                dir_label = ['_x', '_y', '_z']
-                for i in range(int(label.get('size'))):
-                    data_labels.append(fixed_label + dir_label[i])
-            else:
-                data_labels.append(fixed_label)
+#            if int(label.get('size')) > 1:
+#                # tags to differentiate repeated labels (usually space related)
+#                dir_label = ['_x', '_y', '_z']
+#                for i in range(int(label.get('size'))):
+#                    data_labels.append(fixed_label + dir_label[i])
+#            else:
+#                data_labels.append(fixed_label)
 
         # load the file
         cell_file = cell_node.find('filename').text

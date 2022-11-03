@@ -481,10 +481,9 @@ void fibroblasts_phenotype_function( Cell* pCell, Phenotype& phenotype, double d
         if (pCell->custom_data["activated"] == 1){
             // Set secretion
             std::string substrate_name = "F_to_T";
-            double value =  100; // secretion rate
-            std::string behavior = substrate_name+" secretion";
-            set_single_behavior(pCell,behavior,value);
-                  
+            static int F_to_T_index = microenvironment.find_density_index( "F_to_T" );
+            phenotype.secretion.secretion_rates[F_to_T_index] = 100.0;
+                              
         }
     
 return; }
@@ -503,10 +502,8 @@ void macrophages_phenotype_function( Cell* pCell, Phenotype& phenotype, double d
     // If activate secrete
         if (pCell->custom_data["activated"] == 1){
             // Set secretion
-            std::string substrate_name = "M_to_E";
-            double value =  100; // secretion rate
-            std::string behavior = substrate_name+" secretion";
-            set_single_behavior(pCell,behavior,value);
+            static int M_to_E_index = microenvironment.find_density_index( "M_to_E" );
+            phenotype.secretion.secretion_rates[M_to_E_index] = 100.0;
                   
         }
     
@@ -524,10 +521,8 @@ void endothelial_phenotype_function( Cell* pCell, Phenotype& phenotype, double d
     // If activate secrete
         if (pCell->custom_data["activated"] == 1){
             // Set secretion
-            std::string substrate_name = "E_to_T";
-            double value =  100; // secretion rate
-            std::string behavior = substrate_name+" secretion";
-            set_single_behavior(pCell,behavior,value);
+            static int E_to_T_index = microenvironment.find_density_index( "E_to_T" );
+            phenotype.secretion.secretion_rates[E_to_T_index] = 100.0;
                   
         }
     // Deactivate endothelial ???
